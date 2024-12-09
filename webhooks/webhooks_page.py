@@ -1,5 +1,6 @@
 from webhooks.dto import MediaType
-from webhooks.webhooks_utils import get_all_posts, subscribe_post_to_webhook
+from webhooks.webhooks_utils import get_all_posts, subscribe_post_to_webhook, unsubscribe_post_to_webhook, \
+    clear_text_areas
 import streamlit as st
 import os
 
@@ -61,6 +62,15 @@ def display(session):
                     st.success("Subscribed to webhook successfully!")
                 else:
                     st.warning("Something went wrong")
+            unsubscribe_button = st.form_submit_button(f"unsubscribe {post['id']}",on_click=clear_text_areas,args=[post])
+            if unsubscribe_button:
+                response = unsubscribe_post_to_webhook(user_id, post['id'])
+                if response.status_code == 200:
+                    st.balloons()
+                    st.success("Unsubscribed from webhook successfully!")
+                else:
+                    st.error("Something went wrong")
+
 
     # Navigation buttons
     col1, col2, col3 = st.columns([1, 4, 1])

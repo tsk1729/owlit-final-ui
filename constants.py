@@ -19,3 +19,4 @@ IS_USER_AUTHORIZED_SUBSCRIBER_URL = f"http://{fatapi_url}/v1/authorized_subscrib
 SYNC_INSTAGRAM_POSTS_URL = f"http://{fatapi_url}/v1/sync_instagram_media/"
 GET_ALL_POSTS_URL = f"http://{fatapi_url}/v1/get_all_posts/"
 SUBSCRIBE_POST_TO_WEBHOOK = f"http://{fatapi_url}/v1/subscribe_post_to_webhook/"
+UNSUBSCRIBE_POST_TO_WEBHOOK = f"http://{fatapi_url}/v1/unsubscribe_post_to_webhook/"
