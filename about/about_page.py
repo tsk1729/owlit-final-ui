@@ -9,10 +9,6 @@ def display():
             return json.load(f)
 
     lottie_json = load_lottie_local("owl.json")
-
-
-    # Set page title and layout
-
     # Page layout with columns
     col1, col2 = st.columns([1, 1])  # Adjust column widths
 
