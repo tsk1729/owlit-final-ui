@@ -8,6 +8,9 @@ os.environ['PYDEVD_USE_FRAME_EVAL'] = 'NO'
 
 
 def display(session):
+    if st.session_state["auth"] is False:
+        st.warning("Please pay for subscription")
+        st.stop()
     user_id = session["user"]["id"]
     if 'posts' not in st.session_state:
         st.session_state.posts = get_all_posts(user_id)
@@ -33,44 +36,58 @@ def display(session):
     # Display posts
     for post in posts_to_display:
         st.markdown("---")
-        with st.form(key=f"form_{post['id']}"):  # Use a unique key for each form
-            col1, col2 = st.columns([3, 2])  # Create two columns with ratio 3:2
+        col1, col2 = st.columns([3, 2])  # Create two columns with ratio 3:2
+        # Right column (media - image or video)
+        with col1:
+            media_type = post['media_type']
+            if media_type == MediaType.VIDEO.value:
+                st.video(post['media_url'])  # Display video
+            else:
+                st.image(post['media_url'], width=400)  # Display image
 
-            # Left column (details)
-            with col1:
-                sub_string = st.text_area(label=f"Bot Substring for Post ", value=post['sub_string'],
-                                          key=f"sub_string_{post['id']}", height=70)
-                bot_message = st.text_area(label=f"Bot Message for Post ", value=post['bot_message'],
-                                           key=f"bot_message_{post['id']}", height=70)
-                bot_comment = st.text_area(label=f"Bot Comment for Post ", value=post['bot_comment'],
-                                           key=f"bot_comment_{post['id']}", height=70)
+        # Left column (details)
+        with col2:
+            sub_string = st.text_area(
+                label=":orange[Bot Substring]",
+                value=st.session_state.get(f"sub_string_{post['id']}", post['sub_string']),
+                key=f"sub_string_{post['id']}",
+                height=70,
+            )
+            bot_message = st.text_area(
+                label=f":orange[Bot Message] ",
+                value=st.session_state.get(f"bot_message_{post['id']}", post['bot_message']),
+                key=f"bot_message_{post['id']}",
+                height=70,
+            )
+            bot_comment = st.text_area(
+                label=f":orange[Bot Comment]",
+                value=st.session_state.get(f"bot_comment_{post['id']}", post['bot_comment']),
+                key=f"bot_comment_{post['id']}",
+                height=70,
+            )
 
-            # Right column (media - image or video)
-            with col2:
-                media_type = post['media_type']
-                if media_type == MediaType.VIDEO.value:
-                    st.video(post['media_url'])  # Display video
-                else:
-                    st.image(post['media_url'], width=400)  # Display image
 
-            # Submit button inside the form
-            submitted = st.form_submit_button(f"subscribe {post['id']}")
-            if submitted:
-                response = subscribe_post_to_webhook(user_id, post['id'], sub_string, bot_message, bot_comment)
-                if response.status_code == 200:
-                    st.balloons()
-                    st.success("Subscribed to webhook successfully!")
-                else:
-                    st.warning("Something went wrong")
-            unsubscribe_button = st.form_submit_button(f"unsubscribe {post['id']}",on_click=clear_text_areas,args=[post])
-            if unsubscribe_button:
-                response = unsubscribe_post_to_webhook(user_id, post['id'])
-                if response.status_code == 200:
-                    st.balloons()
-                    st.success("Unsubscribed from webhook successfully!")
-                else:
-                    st.error("Something went wrong")
+            # Subscribe form
+            with st.form(key=f"subscribe_form_{post['id']}"):
+                subscribe_button = st.form_submit_button(f"Subscribe",type="primary")
+                if subscribe_button:
+                    response = subscribe_post_to_webhook(user_id, post['id'], sub_string, bot_message, bot_comment)
+                    if response.status_code == 200:
+                        st.balloons()
+                        st.success("Subscribed to webhook successfully!")
+                    else:
+                        st.warning("Something went wrong")
 
+            # Unsubscribe form
+            with st.form(key=f"unsubscribe_form_{post['id']}"):
+                unsubscribe_button = st.form_submit_button(f"Unsubscribe",type="primary", on_click=clear_text_areas, args=[post])
+                if unsubscribe_button:
+                    response = unsubscribe_post_to_webhook(user_id, post['id'])
+                    if response.status_code == 200:
+                        st.balloons()
+                        st.success("Unsubscribed from webhook successfully!")
+                    else:
+                        st.error("Something went wrong")
 
     # Navigation buttons
     col1, col2, col3 = st.columns([1, 4, 1])

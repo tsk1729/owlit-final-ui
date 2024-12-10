@@ -15,7 +15,7 @@ def display(session):
             st.session_state[key] = ""
 
     # Button to fetch user details
-    if st.button("Fetch User Details"):
+    if st.button("Fetch User Details",type="primary"):
         if st.session_state.get("user_id"):
             try:
                 response = fetch_user_details(st.session_state.user_id)
@@ -43,7 +43,7 @@ def display(session):
         address = st.text_area("Address", value=st.session_state.get("address", ""))
 
         # Submit button for the form
-        submitted = st.form_submit_button("Update User Details")
+        submitted = st.form_submit_button("Update User Details",type="primary")
     # Validation logic after submission
     if submitted:
         errors = validate_user_details(country_code, mobile, email,address)
