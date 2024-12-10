@@ -11,7 +11,7 @@ class SUPERBASE:
     PROVIDERS = ["google"]
 
 
-fatapi_url = "localhost:8000"
+fatapi_url = "owlit-backend.vercel.app"
 FETCH_USER_URL = f"http://{fatapi_url}/v1/fetch_user_details/"
 UPDATE_USER_URL = f"http://{fatapi_url}/v1/update_details/"
 IS_USER_PAID_SUBSCRIBER_URL = f"http://{fatapi_url}/v1/paid_subscriber/"
