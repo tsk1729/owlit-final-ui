@@ -1,7 +1,4 @@
-firebase_admin
 streamlit
 streamlit_option_menu
-python-dotenv
 streamlit_supabase_auth
-phonenumbers
 streamlit-lottie
