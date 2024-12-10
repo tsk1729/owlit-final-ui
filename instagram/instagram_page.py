@@ -11,37 +11,23 @@ def handle_instagram_login():
     print(id)
 
     instagram_url = f"https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=1&client_id=581334411142953&redirect_uri=https://owlit-backend.vercel.app/instagram_redirect&response_type=code&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish&state=id%3D{id}"
-    # instagram_url = f"https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=1&client_id=581334411142953&redirect_uri=https://owlit-backend.vercel.app/v1/instagram_redirect&response_type=code&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish&state=id%3D{id}"
     print(instagram_url)
     webbrowser.open(instagram_url)
 
 
 def display():
-    try:
-        id = st.session_state.get("user_id","")
-        response = is_paid_subscriber(id)
-        if response.status_code == 200:
-            st.success("You are a paid subscriber")
-        else:
-            st.error("You are not a paid subscriber")
-    except Exception as e:
-        st.warning("Something went wrong")
+    if st.session_state.get("paid") is True:
+        st.success("You are a paid subscriber")
+    else:
+        st.warning("You are not a paid subscriber")
 
-    try:
-        id = st.session_state.get("user_id", "")
-        response = is_authorized_subscriber(id)
-        if response.status_code == 200:
-            st.session_state["auth"]= True
-            st.success("You are a authorized subscriber. You need not  authorize again")
-        else:
-            st.error("You are not a authorized subscriber")
-            st.write("Instagram Business Login")
-            st.session_state["auth"]= False
-            if st.button("Authorize Instagram",type="primary"):
-                handle_instagram_login()
-
-    except Exception as e:
-        st.warning("Something went wrong")
+    if st.session_state.get("auth") is True:
+        st.success("You are a authorized subscriber. You need not  authorize again")
+    else:
+        st.error("You are not a authorized subscriber")
+        st.write("Instagram Business Login")
+        if st.button("Authorize Instagram", type="primary"):
+            handle_instagram_login()
 
     st.write("Sync Instagram Posts")
     if st.button("Sync Instagram Posts",type="primary"):

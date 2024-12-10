@@ -8,9 +8,13 @@ os.environ['PYDEVD_USE_FRAME_EVAL'] = 'NO'
 
 
 def display(session):
-    if st.session_state["auth"] is False:
+    if st.session_state["paid"] is False:
         st.warning("Please pay for subscription")
         st.stop()
+    if st.session_state["auth"] is False:
+        st.warning("Please Complete Authorzation")
+        st.stop()
+
     user_id = session["user"]["id"]
     if 'posts' not in st.session_state:
         st.session_state.posts = get_all_posts(user_id)

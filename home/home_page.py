@@ -34,7 +34,7 @@ def display(session):
             st.warning("Please signin.")
 
     # Form for updating user details
-    st.subheader("User Details")
+    # st.subheader("User Details")
 
     with st.form(key="user_details_form"):
         country_code = st.text_input("Country Code", value=st.session_state.get("country_code", ""))

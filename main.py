@@ -1,8 +1,12 @@
 import streamlit as st
 from streamlit_supabase_auth import login_form, logout_button
+
+from about import about_page
 from constants import  SUPERBASE
+from contact import contact_page
 from home import home_page
 from instagram import instagram_page
+from instagram.instagram_utils import is_authorized_subscriber, is_paid_subscriber
 from webhooks import webhooks_page
 
 st.set_page_config(page_title="User Details", layout="wide")
@@ -21,11 +25,22 @@ st.sidebar.image(st.session_state["user_image"])
 st.sidebar.write(st.session_state["user_name"])
 menu = st.sidebar.radio(
     "Menu",
-    ["Home", "Instagram", "Subscribe Webhooks", "About", "Support Us"],
+    ["Home", "Instagram", "Subscribe Webhooks", "About", "Contact"],
     index=0  # Default selected index
 )
 if "auth" not in st.session_state:
     st.session_state["auth"] = False
+
+id = st.session_state.get("user_id", "")
+response = is_authorized_subscriber(id)
+if response.status_code == 200:
+    st.session_state["auth"]= True
+
+if "paid" not in st.session_state:
+    st.session_state["paid"] = False
+response = is_paid_subscriber(id)
+if response.status_code == 200:
+    st.session_state["paid"] = True
 
 if menu == "Home":
     home_page.display(session)
@@ -33,6 +48,11 @@ elif menu == "Instagram":
     instagram_page.display()
 elif menu == "Subscribe Webhooks":
     webhooks_page.display(session)
+elif menu == "About":
+    about_page.display()
+elif menu == "Contact":
+    contact_page.display()
+
 
 
 
