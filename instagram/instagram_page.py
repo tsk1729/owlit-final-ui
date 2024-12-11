@@ -8,13 +8,20 @@ from instagram.instagram_utils import is_paid_subscriber, is_authorized_subscrib
 
 def handle_instagram_login():
     id = st.session_state.get("user_id", "")
-    print(id)
+    instagram_url = (
+        f"https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=1&client_id=581334411142953&redirect_uri=https://owlit-backend.vercel.app/instagram_redirect"
+        f"&response_type=code&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish&state=id%3D{id}"
+    )
 
-    instagram_url = f"https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=1&client_id=581334411142953&redirect_uri=https://owlit-backend.vercel.app/instagram_redirect&response_type=code&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish&state=id%3D{id}"
-    print(instagram_url)
-    webbrowser.open(instagram_url)
-
-
+    # Display a clickable button-like link
+    st.markdown(
+        f"""
+        <a href="{instagram_url}" target="_blank" style="display: inline-block; padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; text-align: center; text-decoration: none; border-radius: 5px;">
+            Authorize Instagram
+        </a>
+        """,
+        unsafe_allow_html=True,
+    )
 def display():
     if st.session_state.get("paid") is True:
         st.success("You are a paid subscriber")
