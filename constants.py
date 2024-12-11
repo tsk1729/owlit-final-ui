@@ -11,12 +11,17 @@ class SUPERBASE:
     PROVIDERS = ["google"]
 
 
-fatapi_url = "owlit-backend.vercel.app"
-FETCH_USER_URL = f"https://{fatapi_url}/v1/fetch_user_details/"
-UPDATE_USER_URL = f"https://{fatapi_url}/v1/update_details/"
-IS_USER_PAID_SUBSCRIBER_URL = f"https://{fatapi_url}/v1/paid_subscriber/"
-IS_USER_AUTHORIZED_SUBSCRIBER_URL = f"https://{fatapi_url}/v1/authorized_subscriber/"
-SYNC_INSTAGRAM_POSTS_URL = f"https://{fatapi_url}/v1/sync_instagram_media/"
-GET_ALL_POSTS_URL = f"https://{fatapi_url}/v1/get_all_posts/"
-SUBSCRIBE_POST_TO_WEBHOOK = f"https://{fatapi_url}/v1/subscribe_post_to_webhook/"
-UNSUBSCRIBE_POST_TO_WEBHOOK = f"https://{fatapi_url}/v1/unsubscribe_post_to_webhook/"
+# fatapi_url = "localhost:8000"
+# base_url = "http://"
+fatapi_url = "owlit-bot.onrender.com"  # Remote production URL
+base_url = "https://"
+
+# Define the URLs
+FETCH_USER_URL = f"{base_url}{fatapi_url}/v1/fetch_user_details/"
+UPDATE_USER_URL = f"{base_url}{fatapi_url}/v1/update_details/"
+IS_USER_PAID_SUBSCRIBER_URL = f"{base_url}{fatapi_url}/v1/paid_subscriber/"
+IS_USER_AUTHORIZED_SUBSCRIBER_URL = f"{base_url}{fatapi_url}/v1/authorized_subscriber/"
+SYNC_INSTAGRAM_POSTS_URL = f"{base_url}{fatapi_url}/v1/sync_instagram_media/"
+GET_ALL_POSTS_URL = f"{base_url}{fatapi_url}/v1/get_all_posts/"
+SUBSCRIBE_POST_TO_WEBHOOK = f"{base_url}{fatapi_url}/v1/subscribe_post_to_webhook/"
+UNSUBSCRIBE_POST_TO_WEBHOOK = f"{base_url}{fatapi_url}/v1/unsubscribe_post_to_webhook/"
