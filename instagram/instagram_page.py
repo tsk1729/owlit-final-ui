@@ -33,8 +33,8 @@ def display():
     else:
         st.error("You are not a authorized subscriber")
         st.write("Instagram Business Login")
-        if st.button("Authorize Instagram", type="primary"):
-            handle_instagram_login()
+        # if st.button("Authorize Instagram", type="primary"):
+        handle_instagram_login()
 
     st.write("Sync Instagram Posts")
     if st.button("Sync Instagram Posts",type="primary"):
