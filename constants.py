@@ -13,7 +13,7 @@ class SUPERBASE:
 
 # fatapi_url = "localhost:8000"
 # base_url = "http://"
-fatapi_url = "owlit-bot.onrender.com"  # Remote production URL
+fatapi_url = "api.owlit.in"  # Remote production URL
 base_url = "https://"
 
 # Define the URLs
