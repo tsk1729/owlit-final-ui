@@ -75,7 +75,7 @@ def display(session):
             with st.form(key=f"subscribe_form_{post['id']}"):
                 subscribe_button = st.form_submit_button(f"Subscribe",type="primary")
                 if subscribe_button:
-                    response = subscribe_post_to_webhook(user_id, post['id'], sub_string, bot_message, bot_comment)
+                    response = subscribe_post_to_webhook(user_id, post['id'], sub_string.strip(), bot_message, bot_comment)
                     if response.status_code == 200:
                         st.balloons()
                         st.success("Subscribed to webhook successfully!")
