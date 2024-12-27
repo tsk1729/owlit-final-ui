@@ -83,8 +83,7 @@ def display(session):
                         response = subscribe_post_to_webhook(user_id, post['id'], sub_string.strip(), bot_message, bot_comment)
                         if response.status_code == 200:
                             st.balloons()
-                            st.success(f"Subscribed to webhook successfully with fields sub_stirng:[{sub_string}] \n bot_message: [{bot_message}] \n bot_comment: [{bot_comment}]eibccbjgttbbjedlnuldfhjbutfhdkbghurbhgfvedit"
-                                       f"")
+                            st.success(f"Subscribed to webhook successfully with fields sub_stirng:[{sub_string}] \n bot_message: [{bot_message}] \n bot_comment: [{bot_comment}]")
                         else:
                             st.warning("Something went wrong")
 
