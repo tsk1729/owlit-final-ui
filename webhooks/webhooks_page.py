@@ -1,6 +1,6 @@
 from webhooks.dto import MediaType
 from webhooks.webhooks_utils import get_all_posts, subscribe_post_to_webhook, unsubscribe_post_to_webhook, \
-    clear_text_areas
+    clear_text_areas, validate_fields
 import streamlit as st
 import os
 
@@ -75,12 +75,18 @@ def display(session):
             with st.form(key=f"subscribe_form_{post['id']}"):
                 subscribe_button = st.form_submit_button(f"Subscribe",type="primary")
                 if subscribe_button:
-                    response = subscribe_post_to_webhook(user_id, post['id'], sub_string.strip(), bot_message, bot_comment)
-                    if response.status_code == 200:
-                        st.balloons()
-                        st.success("Subscribed to webhook successfully!")
+                    errors = validate_fields(sub_string,bot_message,bot_comment)
+                    if errors:
+                        for error in errors:
+                             st.error(error)
                     else:
-                        st.warning("Something went wrong")
+                        response = subscribe_post_to_webhook(user_id, post['id'], sub_string.strip(), bot_message, bot_comment)
+                        if response.status_code == 200:
+                            st.balloons()
+                            st.success(f"Subscribed to webhook successfully with fields sub_stirng:[{sub_string}] \n bot_message: [{bot_message}] \n bot_comment: [{bot_comment}]eibccbjgttbbjedlnuldfhjbutfhdkbghurbhgfvedit"
+                                       f"")
+                        else:
+                            st.warning("Something went wrong")
 
             # Unsubscribe form
             with st.form(key=f"unsubscribe_form_{post['id']}"):
