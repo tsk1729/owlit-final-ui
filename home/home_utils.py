@@ -13,6 +13,9 @@ def validate_user_details(country_code, mobile, email, address):
     if not mobile.strip() or not mobile.isdigit():
         errors.append("Mobile number must be numeric and cannot be empty.")
 
+    if not 7<=len(mobile)<=15:
+        errors.append("Mobile number length must be between 7 and 15.")
+
     # Validate email
     if not email.strip() or "@" not in email:
         errors.append("Email must be a valid email address.")
