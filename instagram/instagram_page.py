@@ -3,7 +3,9 @@ import webbrowser
 
 import streamlit as st
 
-from instagram.instagram_utils import is_paid_subscriber, is_authorized_subscriber, sync_instagram_posts
+from constants import DEAUTHORIZE_URL
+from instagram.instagram_utils import is_paid_subscriber, is_authorized_subscriber, sync_instagram_posts, \
+    instagram_deauthorze
 
 
 def handle_instagram_login():
@@ -15,7 +17,7 @@ def handle_instagram_login():
     instagram_url = (f"https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=1&client_id"
                      f"=581334411142953&redirect_uri=https://api.owlit.in/instagram_redirect&response_type=code&scope"
                      f"=instagram_business_basic%2Cinstagram_business_manage_messages"
-                     f"%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish&state=id%3D{id}")
+                     f"%2Cinstagram_business_manage_comments&state=id%3D{id}")
 
     # Display a clickable button-like link
     st.markdown(
@@ -26,6 +28,22 @@ def handle_instagram_login():
         """,
         unsafe_allow_html=True,
     )
+
+
+def handle_instagram_deauthorize():
+    id = st.session_state.get("user_id", "")
+    if st.button("Deauthorize Instagram"):
+        try:
+            response = instagram_deauthorze(id)
+            if response.status_code ==200:
+                st.success("Deauthorized Instagram successfully")
+            else:
+                st.error("Deauthorized Instagram unsuccessfull")
+        except:
+            st.error("Deauthorized Instagram unsuccessfull")
+
+
+
 def display():
     # if st.session_state.get("paid") is True:
     #     st.success("You are a paid subscriber")
@@ -39,6 +57,7 @@ def display():
         st.write("Instagram Business Login")
         # if st.button("Authorize Instagram", type="primary"):
         handle_instagram_login()
+    handle_instagram_deauthorize()
 
     st.write("Sync Instagram Posts")
     if st.button("Sync Instagram Posts",type="primary"):
