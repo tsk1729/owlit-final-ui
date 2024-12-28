@@ -27,10 +27,10 @@ def handle_instagram_login():
         unsafe_allow_html=True,
     )
 def display():
-    if st.session_state.get("paid") is True:
-        st.success("You are a paid subscriber")
-    else:
-        st.warning("You are not a paid subscriber")
+    # if st.session_state.get("paid") is True:
+    #     st.success("You are a paid subscriber")
+    # else:
+    #     st.warning("You are not a paid subscriber")
 
     if st.session_state.get("auth") is True:
         st.success("You are a authorized subscriber. You need not  authorize again")

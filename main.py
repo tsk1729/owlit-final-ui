@@ -37,10 +37,10 @@ if response.status_code == 200:
     st.session_state["auth"]= True
 
 if "paid" not in st.session_state:
-    st.session_state["paid"] = False
-response = is_paid_subscriber(id)
-if response.status_code == 200:
     st.session_state["paid"] = True
+# response = is_paid_subscriber(id)
+# if response.status_code == 200:
+#     st.session_state["paid"] = True
 
 if menu == "Home":
     home_page.display(session)
