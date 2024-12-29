@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit_supabase_auth import login_form, logout_button
 
 from about import about_page
-from constants import  SUPERBASE
+from constants import SUPERBASE, temporary_session as session
 from contact import contact_page
 from home import home_page
 from instagram import instagram_page
@@ -11,10 +11,13 @@ from webhooks import webhooks_page
 
 st.set_page_config(page_title="User Details", layout="wide")
 
-session = login_form(url=SUPERBASE.URL,apiKey=SUPERBASE.API_KEY,providers=SUPERBASE.PROVIDERS)
-if not session:
-    st.warning("Please log in to access the application.")
-    st.stop()
+# session = login_form(url=SUPERBASE.URL,apiKey=SUPERBASE.API_KEY,providers=SUPERBASE.PROVIDERS)
+for key,value in session.items():
+    st.session_state[key] = value
+# st.write(session)
+# if not session:
+#     st.warning("Please log in to access the application.")
+#     st.stop()
 
 logout_button(url=SUPERBASE.URL,apiKey=SUPERBASE.API_KEY)
 if "user_image" not in st.session_state:
